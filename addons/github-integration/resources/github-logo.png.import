@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/attackV2.png-b9c63ac3ccb3c3d8ef713d85e29e78dc.stex"
+path="res://.import/github-logo.png-ecbc9f6d20796b46b889486439e860bc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/attackV2.png"
-dest_files=[ "res://.import/attackV2.png-b9c63ac3ccb3c3d8ef713d85e29e78dc.stex" ]
+source_file="res://addons/github-integration/resources/github-logo.png"
+dest_files=[ "res://.import/github-logo.png-ecbc9f6d20796b46b889486439e860bc.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

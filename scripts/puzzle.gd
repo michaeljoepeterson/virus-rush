@@ -5,6 +5,7 @@ export (int) var height
 export (int) var x_start
 export (int) var y_start
 export (int) var offset
+export (int) var y_offset
 
 var possible_blocks = [
 	preload("res://scenes/move_block.tscn"),
@@ -18,6 +19,7 @@ var all_blocks = []
 var first_touch = Vector2(0,0)
 var last_touch = Vector2(0,0)
 var picked_blocks = []
+var moveAmount = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -89,6 +91,8 @@ func touch_input():
 			if no_match:
 				picked_blocks = []
 			else:
+				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == "blue":
+					print(picked_blocks.size())
 				destroy_blocks()
 		else:
 			picked_blocks = []
@@ -126,7 +130,8 @@ func refill_column():
 				var rand = floor(rand_range(0,possible_blocks.size()))
 				var block = possible_blocks[rand].instance()
 				add_child(block)
-				block.position = grid_to_pixel(i,j)
+				block.position = grid_to_pixel(i,j + y_offset)
+				block.move(grid_to_pixel(i,j))
 				all_blocks[i][j] = block
 
 func _on_destroy_timer_timeout():
