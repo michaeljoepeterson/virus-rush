@@ -13,3 +13,7 @@ func dim(amount):
 func move(target):
 	move_tween.interpolate_property(self, "position", position, target, 1.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 	move_tween.start()
+
+func move_out(target):
+	move_tween.interpolate_property(self, "position", position, target, .25, Tween.TRANS_SINE, Tween.EASE_IN)
+	move_tween.start()

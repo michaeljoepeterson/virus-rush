@@ -17,9 +17,11 @@ var possible_blocks = [
 var all_blocks = []
 
 var first_touch = Vector2(0,0)
-var last_touch = Vector2(0,0)
+var blocker = preload("res://scenes/move_block.tscn")
 var picked_blocks = []
 var moveAmount = 0
+
+signal move_update
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -80,9 +82,7 @@ func touch_input():
 		if picked_blocks.size() >= 3:
 			var no_match = false
 			for i in picked_blocks:
-				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == all_blocks[i.x][i.y].color:
-					print(all_blocks[i.x][i.y].color)
-				else:
+				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color != all_blocks[i.x][i.y].color:
 					no_match = true
 					for m in width:
 						for j in height: 
@@ -92,7 +92,29 @@ func touch_input():
 				picked_blocks = []
 			else:
 				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == "blue":
-					print(picked_blocks.size())
+					emit_signal("move_update", picked_blocks.size(), 0, 0, 0)
+					blocker = possible_blocks[0].instance()
+					add_child(blocker)
+					blocker.position = get_global_mouse_position()
+					blocker.move_out(Vector2(90,80))
+				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == "green":
+					emit_signal("move_update", 0, picked_blocks.size(), 0, 0)
+					blocker = possible_blocks[3].instance()
+					add_child(blocker)
+					blocker.position = get_global_mouse_position()
+					blocker.move_out(Vector2(500,80))
+				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == "red":
+					emit_signal("move_update", 0, 0, picked_blocks.size(), 0)
+					blocker = possible_blocks[1].instance()
+					add_child(blocker)
+					blocker.position = get_global_mouse_position()
+					blocker.move_out(Vector2(90,500))
+				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color == "yellow":
+					emit_signal("move_update", 0, 0, 0, picked_blocks.size())
+					blocker = possible_blocks[2].instance()
+					add_child(blocker)
+					blocker.position = get_global_mouse_position()
+					blocker.move_out(Vector2(500,500))
 				destroy_blocks()
 		else:
 			picked_blocks = []
@@ -112,6 +134,7 @@ func destroy_blocks():
 	get_parent().get_node("destroy_timer").start()
 
 func collapse_column():
+	blocker.queue_free()
 	for i in width:
 		for j in height:
 			if all_blocks[i][j] == null:
