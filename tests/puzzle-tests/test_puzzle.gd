@@ -24,9 +24,12 @@ func test_array_created():
 	puzzle.height = self.puzzleHeight
 	puzzle.width = self.puzzleWidth
 	var puzzleArray = puzzle.make_2d_array()
-	gut.p('puzzle height and width')
+	gut.p('puzzle height and width: ')
 	gut.p(puzzle.height)
 	gut.p(puzzle.width)
+	gut.p('array height and width: ')
+	gut.p(puzzleArray[0].size())
+	gut.p(puzzleArray.size())
 	assert_eq(puzzleArray.size(), self.puzzleWidth, "Puzzle array should equal random puzzle width")
 	assert_eq(puzzleArray[0].size(), self.puzzleHeight, "Puzzle array should equal random puzzle height")
 
