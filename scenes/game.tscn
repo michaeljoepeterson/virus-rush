@@ -1,23 +1,191 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/puzzle.gd" type="Script" id=1]
+[ext_resource path="res://scenes/lungset512.tres" type="TileSet" id=2]
+[ext_resource path="res://scenes/maze.gd" type="Script" id=3]
+[ext_resource path="res://art/fraim.png" type="Texture" id=4]
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://art/moveD.png" type="Texture" id=6]
+[ext_resource path="res://art/infectionD.png" type="Texture" id=7]
+[ext_resource path="res://art/attackD.png" type="Texture" id=8]
+[ext_resource path="res://art/defendD.png" type="Texture" id=9]
+[ext_resource path="res://addons/radial_progress/RadialProgressBar.gd" type="Script" id=10]
+[ext_resource path="res://scripts/UI.gd" type="Script" id=11]
+[ext_resource path="res://fonts/DK Cool Crayon.ttf" type="DynamicFontData" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+font_data = ExtResource( 12 )
 
 [node name="game" type="Node2D"]
 
-[node name="background" type="Node2D" parent="."]
+[node name="maze" type="Node2D" parent="."]
+position = Vector2( 250, 250 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="ColorRect" type="ColorRect" parent="background"]
-margin_right = 576.0
+[node name="lungmap" type="TileMap" parent="maze"]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 128, 128 )
+format = 1
+
+[node name="player" parent="." instance=ExtResource( 5 )]
+position = Vector2( 292.859, 275.878 )
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2( 1.64563, 118.114 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource( 11 )
+
+[node name="windowUI" type="Node2D" parent="UI"]
+scale = Vector2( 1.01, 1.01 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="background" type="TextureRect" parent="UI/windowUI"]
+margin_left = -3.70129
+margin_right = 572.299
 margin_bottom = 1024.0
-color = Color( 0.356863, 0.360784, 0.4, 1 )
+texture = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="puzzle" type="Node2D" parent="."]
+[node name="mover" type="TextureRect" parent="UI/windowUI"]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="moveProgress" type="Control" parent="UI/windowUI"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 104.0
+margin_bottom = 104.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+radius = 60
+progress = 50
+thickness = 10
+bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
+bar_color = Color( 0, 0.580392, 1, 0.823529 )
+
+[node name="infect" type="TextureRect" parent="UI/windowUI"]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 440.0
+margin_right = 568.0
+margin_bottom = 128.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="infectProgress" type="Control" parent="UI/windowUI"]
+margin_left = 504.0
+margin_top = 64.0
+margin_right = 544.0
+margin_bottom = 104.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+radius = 64
+progress = 40
+bg_color = Color( 0.054902, 0.00392157, 0.00392157, 0 )
+bar_color = Color( 0.2, 0.901961, 0.2, 0.678431 )
+
+[node name="attack" type="TextureRect" parent="UI/windowUI"]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_top = 438.175
+margin_right = 128.0
+margin_bottom = 566.175
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="attackProgres" type="Control" parent="UI/windowUI"]
+margin_left = 64.0
+margin_top = 502.0
+margin_right = 104.0
+margin_bottom = 542.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+radius = 64
+progress = 50
+bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
+bar_color = Color( 0.945098, 0.0509804, 0.0509804, 0.584314 )
+
+[node name="defend" type="TextureRect" parent="UI/windowUI"]
+modulate = Color( 1, 1, 1, 0.160784 )
+margin_left = 437.155
+margin_top = 438.607
+margin_right = 565.155
+margin_bottom = 566.607
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="defendProgress" type="Control" parent="UI/windowUI"]
+margin_left = 501.0
+margin_top = 503.0
+margin_right = 541.0
+margin_bottom = 543.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+radius = 64
+progress = 25
+bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
+bar_color = Color( 0.847059, 0.901961, 0.2, 0.752941 )
+
+[node name="turns" type="Label" parent="UI/windowUI"]
+margin_left = 208.0
+margin_top = 522.0
+margin_right = 361.0
+margin_bottom = 584.0
+custom_fonts/font = SubResource( 1 )
+text = "text"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="destroy_timer" type="Timer" parent="UI"]
+wait_time = 0.5
+one_shot = true
+
+[node name="refill_timer" type="Timer" parent="UI"]
+wait_time = 0.5
+one_shot = true
+
+[node name="puzzle" type="Node2D" parent="UI"]
 script = ExtResource( 1 )
 width = 8
-height = 6
+height = 5
 x_start = 64
-y_start = 800
+y_start = 900
 offset = 64
+y_offset = 2
+[connection signal="timeout" from="UI/destroy_timer" to="UI/puzzle" method="_on_destroy_timer_timeout"]
+[connection signal="timeout" from="UI/refill_timer" to="UI/puzzle" method="_on_refill_timer_timeout"]
+[connection signal="move_update" from="UI/puzzle" to="UI" method="_on_puzzle_move_update"]
