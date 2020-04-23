@@ -36,7 +36,7 @@ window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "github-integration", "radial_progress" )
+enabled=PoolStringArray( "github-integration", "gut" )
 
 [input]
 
