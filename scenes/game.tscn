@@ -118,6 +118,7 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
+thickness = 20
 bg_color = Color( 0.054902, 0.00392157, 0.00392157, 0 )
 bar_color = Color( 0.2, 0.901961, 0.2, 0.678431 )
 
@@ -144,6 +145,7 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
+thickness = 20
 bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
 bar_color = Color( 0.945098, 0.0509804, 0.0509804, 0.584314 )
 
@@ -170,6 +172,7 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
+thickness = 20
 bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
 bar_color = Color( 0.847059, 0.901961, 0.2, 0.752941 )
 
