@@ -3,6 +3,7 @@ extends KinematicBody2D
 var MAX_SPEED = 500
 var ACCELERTION = 2000
 var motion = Vector2()
+onready var wall_ray = get_node("wallRay")
 
 func _physics_process(delta):
 	var axis = get_input_axis()
@@ -11,6 +12,7 @@ func _physics_process(delta):
 	else:
 		apply_motion(axis * ACCELERTION * delta)
 	motion = move_and_slide(motion)
+	# print(wall_ray.get_collision_point())
 
 func get_input_axis():
 	var axis = Vector2.ZERO
@@ -27,3 +29,8 @@ func apply_friction(amount):
 func apply_motion(accelertion):
 	motion += accelertion
 	motion = motion.clamped(MAX_SPEED)
+
+
+func _on_uparrow_pressed():
+	pass
+	
