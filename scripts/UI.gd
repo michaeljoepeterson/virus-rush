@@ -1,10 +1,13 @@
 extends CanvasLayer
 
-onready var move_radial = $windowUI/moveProgress
+onready var move_radial = $windowUI/move_group/moveProgress
 onready var infect_radial = $windowUI/infectProgress
 onready var att_radial = $windowUI/attackProgres
 onready var defend_radial = $windowUI/defendProgress
 onready var turns = $windowUI/turns
+onready var moveNum = $windowUI/move_group/moveProgress/moveNum
+onready var uparrow = $windowUI/move_group/uparrow
+
 var move = 0
 var infect = 0
 var attack = 0
@@ -23,13 +26,20 @@ func _ready():
 
 
 func _on_puzzle_move_update(mover, infecter, attacker, defender):
-	move += mover
+	move = mover
 	move_radial.progress = move
-	infect += infecter
+	moveNum.text = String(move)
+	infect = infecter
 	infect_radial.progress = infect
-	attack += attacker
+	attack = attacker
 	att_radial.progress = attack
-	defend += defender
+	defend = defender
 	defend_radial.progress = defend
 	turn -= 1
 	turns.text = String(turn)
+
+
+func _on_Move_pressed():
+	if move > 0:
+		uparrow.visible = true
+		print("Move")
