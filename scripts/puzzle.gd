@@ -68,20 +68,47 @@ func is_a_match(block):
 		if block == i:
 			no_match = false
 	return no_match
+	
+#params = vector 2d
+func handle_touch_up(grid_pos):
+	if is_in_grid(grid_pos.x, grid_pos.y):
+		if is_a_match(grid_pos):
+			if all_blocks[grid_pos.x][grid_pos.y] != null:
+				all_blocks[grid_pos.x][grid_pos.y].dim(0.5)
+				picked_blocks.append(grid_pos)
+#check if there is a match
+func check_if_match():
+	var no_match = false
+	if picked_blocks.size() >= 3:
+		for i in picked_blocks:
+			#check initial color if that color is different for any picked blocks no match
+			if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color != all_blocks[i.x][i.y].color:
+				no_match = true
+				for m in width:
+					for j in height: 
+						if all_blocks[m][j] != null:
+							all_blocks[m][j].dim(1)
+	return no_match
 
+func handle_match():
+	pass
+
+func handle_touch_down():
+	var has_match = self.check_if_match()
+	if(!has_match):
+		picked_blocks = []
+	
+#will need to emulate this function in test code
 func touch_input():
 	if Input.is_action_pressed("ui_touch"):
 		first_touch = get_global_mouse_position()
 		var grid_pos = pixel_to_grid(first_touch.x, first_touch.y)
-		if is_in_grid(grid_pos.x, grid_pos.y):
-			if is_a_match(grid_pos):
-				if all_blocks[grid_pos.x][grid_pos.y] != null:
-					all_blocks[grid_pos.x][grid_pos.y].dim(0.5)
-					picked_blocks.append(grid_pos)
+		self.handle_touch_up(grid_pos)
 	if Input.is_action_just_released("ui_touch"):
 		if picked_blocks.size() >= 3:
 			var no_match = false
 			for i in picked_blocks:
+				#check initial color if that color is different for any picked blocks no match
 				if all_blocks[picked_blocks[0].x][picked_blocks[0].y].color != all_blocks[i.x][i.y].color:
 					no_match = true
 					for m in width:
