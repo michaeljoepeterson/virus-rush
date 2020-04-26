@@ -19,16 +19,20 @@ var puzzleHeight = randi()%501+1
 var puzzleWidth = randi()%501+1
 
 func before_each():
-	gut.p("ran setup")
+	#gut.p("ran setup")
+	pass
 
 func after_each():
-	gut.p("==========ran teardown==========")
+	#gut.p("==========ran teardown==========")
+	pass
 
 func before_all():
-	gut.p("==========ran run setup==========")
+	#gut.p("==========ran run setup==========")
+	pass
 
 func after_all():
-	gut.p("==========ran run teardown==========")
+	#gut.p("==========ran run teardown==========")
+	pass
 
 func test_array_created():
 	gut.p('==========Start Puzzle Array Create Test==========')
@@ -47,11 +51,24 @@ func test_array_created():
 	assert_eq(puzzleArray.size(), self.puzzleWidth, "Puzzle array should equal random puzzle width")
 	assert_eq(puzzleArray[0].size(), self.puzzleHeight, "Puzzle array should equal random puzzle height")
 func test_spawn_blocks():
+	gut.p('==========Start Spawn Block Test==========')
 	var puzzle = Puzzle.new()
 	var testMove = MoveBlock.instance()
+	puzzle.height = self.puzzleHeight
+	puzzle.width = self.puzzleWidth
+	puzzle.all_blocks = puzzle.make_2d_array()
+	puzzle.spawn_block()
+	var allTypesMatch = true
+	for i in puzzle.width:
+		for k in puzzle.height:
+			var block = puzzle.all_blocks[i][k]
+			if(!self.BlockFileNames[block.filename]):
+				allTypesMatch = false
+				break
+			
 	#check filename of instance to make sure it is of a instance
-	gut.p('instance of move block is equal to move block' + testMove.filename)
-	assert_eq(1, 2, "Puzzle array should equal random puzzle width")
+	gut.p('instance of all blocks are correct type')
+	assert_true(allTypesMatch, "All spawn blocks should be of correct type")
 # func test_assert_eq_number_equal():
 # 	assert_eq('asdf', 'asdf', "Should pass")
 
