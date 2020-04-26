@@ -69,8 +69,9 @@ func test_spawn_blocks():
 	#check filename of instance to make sure it is of a instance
 	gut.p('instance of all blocks are correct type')
 	assert_true(allTypesMatch, "All spawn blocks should be of correct type")
-# func test_assert_eq_number_equal():
-# 	assert_eq('asdf', 'asdf', "Should pass")
+func test_touch_method():
+	
+	assert_eq('asdf', 'asdf', "Should pass")
 
 # func test_assert_true_with_true():
 # 	assert_true(true, "Should pass, true is true")
