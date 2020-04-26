@@ -4,12 +4,10 @@
 
 [node name="Gut" type="Control"]
 self_modulate = Color( 1, 1, 1, 0 )
-
 margin_left = 551.621
 margin_top = 48.4628
 margin_right = 1439.62
 margin_bottom = 571.463
-
 rect_min_size = Vector2( 740, 250 )
 rect_rotation = 90.0
 script = ExtResource( 1 )
