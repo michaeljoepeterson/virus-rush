@@ -88,6 +88,8 @@ func check_if_match():
 					for j in height: 
 						if all_blocks[m][j] != null:
 							all_blocks[m][j].dim(1)
+	else:
+		no_match = true
 	return no_match
 
 func handle_match():
