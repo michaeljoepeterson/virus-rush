@@ -23,8 +23,13 @@ var moveAmount = 0
 
 signal move_update
 
+# state machine
+enum {wait, move}
+var state
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	state = move
 	randomize()
 	all_blocks = make_2d_array()
 	spawn_block()
@@ -45,6 +50,22 @@ func spawn_block():
 			add_child(block)
 			block.position = grid_to_pixel(i,j)
 			all_blocks[i][j] = block
+
+func match_at(i, j, color):
+	if i > 1:
+		if all_blocks[i - 1][j] != null && all_blocks[i][j - 1] != null:
+			if all_blocks[i - 1][j].color == color && all_blocks[i][j - 1].color == color:
+				return true
+		if all_blocks[i - 1][j] != null && all_blocks[i - 2][j] != null:
+			if all_blocks[i - 1][j].color == color && all_blocks[i - 2][j].color == color:
+				return true
+	if j > 1:
+		if all_blocks[i][j - 1] != null && all_blocks[i - 1][j] != null:
+			if all_blocks[i][j - 1].color == color && all_blocks[i - 1][j].color == color:
+				return true
+		if all_blocks[i][j - 1] != null && all_blocks[i][j - 2] != null:
+			if all_blocks[i][j - 1].color == color && all_blocks[i][j - 2].color == color:
+				return true
 
 func grid_to_pixel(column, row):
 	var new_x = x_start + offset * column
@@ -140,9 +161,9 @@ func touch_input():
 	if Input.is_action_just_released("ui_touch"):
 		self.handle_touch_up()
 
-
 func _process(_delta):
-	touch_input()
+	if state == move:
+		touch_input()
 
 func destroy_blocks():
 	for i in picked_blocks:
@@ -150,6 +171,13 @@ func destroy_blocks():
 		all_blocks[i.x][i.y] = null
 	picked_blocks = []
 	get_parent().get_node("destroy_timer").start()
+
+func destroy_all():
+	for i in width:
+		for j in height:
+			if all_blocks[i][j] != null:
+				all_blocks[i][j].queue_free()
+				all_blocks[i][j] = null
 
 func collapse_column():
 	blocker.queue_free()
@@ -174,6 +202,19 @@ func refill_column():
 				block.position = grid_to_pixel(i,j + y_offset)
 				block.move(grid_to_pixel(i,j))
 				all_blocks[i][j] = block
+	test_for_moves()
+
+func test_for_moves():
+	var playOn = true
+	for i in width:
+		for j in height:
+			if all_blocks[i][j] != null:
+				if match_at(i, j, all_blocks[i][j].color):
+					playOn = false
+	if playOn:
+		destroy_all()
+		spawn_block()
+	state = move
 
 func _on_destroy_timer_timeout():
 	collapse_column()
