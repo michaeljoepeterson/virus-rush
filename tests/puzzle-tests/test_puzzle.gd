@@ -34,17 +34,17 @@ var YStart = 900
 var YOffset = 2
 var puzzle;
 func before_each():
-	puzzle = Puzzle.new()
+	self.puzzle = Puzzle.new()
 	#set defaults and a fresh puzzle instance for each test
-	puzzle.height = self.puzzleHeight
-	puzzle.width = self.puzzleWidth
-	puzzle.all_blocks = puzzle.make_2d_array()
-	puzzle.height = self.puzzleHeight
-	puzzle.width = self.puzzleWidth
-	puzzle.offset = self.Offset
-	puzzle.x_start = self.XStart
-	puzzle.y_start = self.YStart
-	puzzle.y_offset = self.YOffset
+	self.puzzle.height = self.puzzleHeight
+	self.puzzle.width = self.puzzleWidth
+	self.puzzle.all_blocks = puzzle.make_2d_array()
+	self.puzzle.height = self.puzzleHeight
+	self.puzzle.width = self.puzzleWidth
+	self.puzzle.offset = self.Offset
+	self.puzzle.x_start = self.XStart
+	self.puzzle.y_start = self.YStart
+	self.puzzle.y_offset = self.YOffset
 
 
 func after_each():
@@ -63,10 +63,10 @@ func after_all():
 func test_array_created():
 	gut.p('==========Start Puzzle Array Create Test==========')
 	
-	var puzzleArray = puzzle.make_2d_array()
+	var puzzleArray = self.puzzle.make_2d_array()
 	gut.p('puzzle height and width: ')
-	gut.p(puzzle.height)
-	gut.p(puzzle.width)
+	gut.p(self.puzzle.height)
+	gut.p(self.puzzle.width)
 	gut.p('array height and width: ')
 	gut.p(puzzleArray[0].size())
 	gut.p(puzzleArray.size())
@@ -74,13 +74,12 @@ func test_array_created():
 	assert_eq(puzzleArray[0].size(), self.puzzleHeight, "Puzzle array should equal random puzzle height")
 func test_spawn_blocks():
 	gut.p('==========Start Spawn Block Test==========')
-	var puzzle = Puzzle.new()
 	var testMove = MoveBlock.instance()
-	puzzle.spawn_block()
+	self.puzzle.spawn_block()
 	var allTypesMatch = true
-	for i in puzzle.width:
-		for k in puzzle.height:
-			var block = puzzle.all_blocks[i][k]
+	for i in self.puzzle.width:
+		for k in self.puzzle.height:
+			var block = self.puzzle.all_blocks[i][k]
 			if(!self.BlockFileNames[block.filename]):
 				allTypesMatch = false
 				break
@@ -90,24 +89,24 @@ func test_spawn_blocks():
 	assert_true(allTypesMatch, "All spawn blocks should be of correct type")
 
 #emulate touch input func in puzzle class, can't use that func since it is using Input	
-func emulate_touch(touch_action,puzzle,x,y):
+func emulate_touch(touch_action,x,y):
 	if(touch_action == self.touch_up):
-		var grid_pos = puzzle.pixel_to_grid(x,y)
+		var grid_pos = self.puzzle.pixel_to_grid(x,y)
 		gut.p('')
 	elif(touch_action == self.touch_down):
 		gut.p('')
 #build grid with all same block types for testing
-func all_match_grid(grid,width,height,puzzle):
+func all_match_grid(grid,width,height):
 	var randBlock = self.possible_blocks[randi()%self.possible_blocks.size()+1]
 	for i in width:
 		for k in height:
 			var col = randBlock.instance()
-			col.position = puzzle.grid_to_pixel(i,k)
+			col.position = self.puzzle.grid_to_pixel(i,k)
 			grid[i][k] = col
 		
 func test_touch_method():
 	gut.p('==========Start Spawn Puzzle Touch Test==========')
-	var puzzle = Puzzle.new()
+
 	
 	assert_eq('asdf', 'asdf', "Should pass")
 
