@@ -1,29 +1,30 @@
 extends KinematicBody2D
 
-var MAX_SPEED = 500
-var ACCELERTION = 2000
-var motion = Vector2()
+export (int) var speed = 200
 
-func _physics_process(delta):
-	var axis = get_input_axis()
-	if axis == Vector2.ZERO:
-		apply_friction(ACCELERTION * delta)
-	else:
-		apply_motion(axis * ACCELERTION * delta)
-	motion = move_and_slide(motion)
+var target = Vector2()
+var velocity = Vector2()
+onready var wall_ray = get_node("wallRay")
+signal move_remove
 
-func get_input_axis():
-	var axis = Vector2.ZERO
-	axis.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	axis.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	return axis.normalized()
 
-func apply_friction(amount):
-	if motion.length() > amount:
-		motion -= motion.normalized() * amount
-	else:
-		motion = Vector2.ZERO
+func _physics_process(_delta):
+	velocity = position.direction_to(target) * speed
+	if position.distance_to(target) > 5:
+		velocity = move_and_slide(velocity)
 
-func apply_motion(accelertion):
-	motion += accelertion
-	motion = motion.clamped(MAX_SPEED)
+func _on_uparrow_pressed():
+	emit_signal("move_remove")
+	target = position + Vector2(0,-64)
+
+func _on_rightarrow_pressed():
+	emit_signal("move_remove")
+	target = position + Vector2(64,0)
+
+func _on_leftarrow_pressed():
+	emit_signal("move_remove")
+	target = position + Vector2(-64,0)
+
+func _on_downarrow_pressed():
+	emit_signal("move_remove")
+	target = position + Vector2(0,64)
