@@ -91,10 +91,32 @@ func test_spawn_blocks():
 #emulate touch input func in puzzle class, can't use that func since it is using Input	
 func emulate_touch(touch_action,x,y):
 	if(touch_action == self.touch_up):
-		var grid_pos = self.puzzle.pixel_to_grid(x,y)
-		gut.p('')
+		gut.p('Passed x and y: ' + str(x) + ', ' + str(y))
 	elif(touch_action == self.touch_down):
-		gut.p('')
+		gut.p('Passed x and y: ' + str(x) + ', '  + str(y))
+		
+func make_line_vertical(grid):
+	var line = []
+	var width = grid.size()
+	var height = grid[0].size()
+	var startCol = randi()%width+1
+	var lineHeight = randi()%height+1
+	for i in lineHeight:
+		var pos = Vector2(startCol,i)
+		line.append(pos)
+	return line;
+	
+func make_line_horizontal(grid):
+	var line = []
+	var width = grid.size()
+	var height = grid[0].size()
+	var startRow = randi()%height+1
+	var lineWidth = randi()%width+1
+	for i in lineWidth:
+		var pos = Vector2(i,startRow)
+		line.push(pos)
+	return line;
+
 #build grid with all same block types for testing
 func all_match_grid(grid,width,height):
 	var randBlock = self.possible_blocks[randi()%self.possible_blocks.size()+1]
@@ -103,18 +125,13 @@ func all_match_grid(grid,width,height):
 			var col = randBlock.instance()
 			col.position = self.puzzle.grid_to_pixel(i,k)
 			grid[i][k] = col
-		
+	return grid
 func test_touch_method():
 	gut.p('==========Start Spawn Puzzle Touch Test==========')
-
+	self.puzzle.all_blocks = self.all_match_grid(self.puzzle.all_blocks,self.puzzleWidth,self.puzzleHeight)
+	var verticalLine = self.make_line_vertical(self.puzzle.all_blocks)
+	for pos in verticalLine:
+		emulate_touch(self.touch_down,pos.x,pos.y)
 	
 	assert_eq('asdf', 'asdf', "Should pass")
 
-# func test_assert_true_with_true():
-# 	assert_true(true, "Should pass, true is true")
-
-# func test_assert_true_with_false():
-# 	assert_true(false, "Should fail")
-
-# func test_something_else():
-# 	assert_true(false, "didn't work")
