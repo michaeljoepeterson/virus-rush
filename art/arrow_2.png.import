@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stone_arrow_0.png-6669050da20a117de5d1f16531284847.stex"
+path="res://.import/arrow_2.png-a51bb58a64fdf8a6679918fa047dc6f4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/stone_arrow_0.png"
-dest_files=[ "res://.import/stone_arrow_0.png-6669050da20a117de5d1f16531284847.stex" ]
+source_file="res://art/arrow_2.png"
+dest_files=[ "res://.import/arrow_2.png-a51bb58a64fdf8a6679918fa047dc6f4.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -31,4 +31,4 @@ process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true
-svg/scale=4.0
+svg/scale=1.0

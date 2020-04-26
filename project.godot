@@ -19,11 +19,6 @@ config/name="virus"
 run/main_scene="res://scenes/game.tscn"
 config/icon="res://icon.png"
 
-[autoload]
-
-UserData="*res://addons/github-integration/scripts/user_data.gd"
-IconLoaderGithub="*res://addons/github-integration/scripts/IconLoaderGithub.gd"
-
 [display]
 
 window/size/width=576
@@ -36,7 +31,7 @@ window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "github-integration", "radial_progress" )
+enabled=PoolStringArray( "gut", "radial_progress" )
 
 [input]
 
