@@ -4,11 +4,12 @@
 
 [node name="Gut" type="Control"]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_left = -208.516
-margin_top = 7.10107
-margin_right = 679.484
-margin_bottom = 530.101
+margin_left = 551.621
+margin_top = 48.4628
+margin_right = 1439.62
+margin_bottom = 571.463
 rect_min_size = Vector2( 740, 250 )
+rect_rotation = 90.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,8 +19,3 @@ _should_maximize = true
 _yield_between_tests = false
 _directory1 = "res://tests/puzzle-tests"
 _double_strategy = 1
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 429.535, 245.094 )
-current = true
-zoom = Vector2( 1.664, 1 )
