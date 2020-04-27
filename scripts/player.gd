@@ -9,7 +9,6 @@ onready var wall_right = get_node("wallright")
 onready var wall_left = get_node("wallleft")
 onready var wall_down = get_node("walldown")
 signal move_remove
-signal infect_remove
 signal infect_block
 var low_infect_on = false
 var infect_amount = 0
@@ -31,49 +30,41 @@ func _physics_process(_delta):
 
 func infect_block():
 	var block_infect = Vector2(0,0)
-	block_infect.x = ceil((position.x - 250) / 128 ) - 1
-	block_infect.y = ceil((position.y - 250) / 128 ) - 1
-	emit_signal("infect_block", block_infect)
+	block_infect.x = ceil((target.x - 250) / 128 ) - 1
+	block_infect.y = ceil((target.y - 250) / 128 ) - 1
+	if low_infect_on && infect_amount >= 1:
+		emit_signal("infect_block", block_infect)
 
 func _on_uparrow_pressed():
 	if move_up:
 		emit_signal("move_remove")
 		target = position + Vector2(0,-128)
-		if low_infect_on && infect_amount >= 1:
-			infect_block()
-			emit_signal("infect_remove")
+		infect_block()
 
 func _on_rightarrow_pressed():
 	if move_right:
 		emit_signal("move_remove")
 		target = position + Vector2(128,0)
-		if low_infect_on && infect_amount >= 1:
-			infect_block()
-			emit_signal("infect_remove")
-
+		infect_block()
 
 func _on_leftarrow_pressed():
 	if move_left:
 		emit_signal("move_remove")
 		target = position + Vector2(-128,0)
-		if low_infect_on && infect_amount >= 1:
-			infect_block()
-			emit_signal("infect_remove")
+		infect_block()
 
 func _on_downarrow_pressed():
 	if move_down:
 		emit_signal("move_remove")
 		target = position + Vector2(0,128)
-		if low_infect_on && infect_amount >= 1:
-			infect_block()
-			emit_signal("infect_remove")
-
+		infect_block()
 
 func _on_infectlow_pressed():
-	infect_block()
-	emit_signal("infect_remove")
+	var block_infect = Vector2(0,0)
+	block_infect.x = ceil((position.x - 250) / 128 ) - 1
+	block_infect.y = ceil((position.y - 250) / 128 ) - 1
+	emit_signal("infect_block", block_infect)
 	low_infect_on = true
-
 
 
 func _on_UI_infect_amount(amount):
