@@ -269,24 +269,26 @@ __meta__ = {
 }
 
 [node name="turns" type="Label" parent="UI/windowUI"]
-margin_left = 208.0
-margin_top = 522.0
-margin_right = 361.0
-margin_bottom = 584.0
+margin_left = 190.359
+margin_top = 529.715
+margin_right = 378.359
+margin_bottom = 622.715
 custom_fonts/font = ExtResource( 12 )
-text = "text"
+text = "0 
+Infected"
 align = 1
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="destroy_timer" type="Timer" parent="UI"]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [node name="refill_timer" type="Timer" parent="UI"]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [node name="puzzle" type="Node2D" parent="UI"]
@@ -297,14 +299,16 @@ x_start = 64
 y_start = 900
 offset = 64
 y_offset = 2
+[connection signal="infect_percent" from="maze" to="UI" method="_on_maze_infect_percent"]
+[connection signal="infect_remove" from="maze" to="UI" method="_on_maze_infect_remove"]
 [connection signal="infect_block" from="player" to="maze" method="_on_player_infect_block"]
-[connection signal="infect_remove" from="player" to="UI" method="_on_player_infect_remove"]
 [connection signal="move_remove" from="player" to="UI" method="_on_player_move_remove"]
 [connection signal="infect_amount" from="UI" to="player" method="_on_UI_infect_amount"]
 [connection signal="pressed" from="UI/windowUI/move_group/uparrow" to="player" method="_on_uparrow_pressed"]
 [connection signal="pressed" from="UI/windowUI/move_group/rightarrow" to="player" method="_on_rightarrow_pressed"]
 [connection signal="pressed" from="UI/windowUI/move_group/leftarrow" to="player" method="_on_leftarrow_pressed"]
 [connection signal="pressed" from="UI/windowUI/move_group/downarrow" to="player" method="_on_downarrow_pressed"]
+[connection signal="pressed" from="UI/windowUI/infect_group/infectlow" to="UI" method="_on_infectlow_pressed"]
 [connection signal="pressed" from="UI/windowUI/infect_group/infectlow" to="player" method="_on_infectlow_pressed"]
 [connection signal="timeout" from="UI/destroy_timer" to="UI/puzzle" method="_on_destroy_timer_timeout"]
 [connection signal="timeout" from="UI/refill_timer" to="UI/puzzle" method="_on_refill_timer_timeout"]

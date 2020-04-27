@@ -13,7 +13,7 @@ onready var infect_low = $windowUI/infect_group/infectlow
 # attack UI load
 onready var att_radial = $windowUI/attackProgres
 onready var defend_radial = $windowUI/defendProgress
-onready var turns = $windowUI/turns
+onready var infection_percent = $windowUI/turns
 
 
 var move = 0
@@ -57,9 +57,6 @@ func _on_puzzle_move_update(mover, infecter, attacker, defender):
 	att_radial.progress = attack
 	defend = defender
 	defend_radial.progress = defend
-	turn -= 1
-	turns.text = String(turn)
-
 
 
 func _on_player_move_remove():
@@ -77,7 +74,11 @@ func _on_player_move_remove():
 		leftarrow.visible = false
 
 
-func _on_player_infect_remove():
+func _on_infectlow_pressed():
+	infect_low.visible = false
+
+
+func _on_maze_infect_remove():
 	if infect > 1:
 		infect -= 1
 		infect_radial.progress = infect
@@ -87,5 +88,8 @@ func _on_player_infect_remove():
 		infect_radial.progress = infect
 		infectNum.visible = false
 		infect_low.visible = false
-	print(infect)
 	emit_signal("infect_amount",infect)
+
+
+func _on_maze_infect_percent(percent):
+	infection_percent.text = String(percent) + " Infected"
