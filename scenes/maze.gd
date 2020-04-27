@@ -15,6 +15,7 @@ var height = 12  # height of map (in tiles)
 
 # get a reference to the map for convenience
 onready var Map = $lungmap
+onready var infectMap = $infectMap
 
 func _ready():
 	randomize()
@@ -56,5 +57,9 @@ func make_maze():
 			unvisited.erase(current)
 		elif stack:
 			current = stack.pop_back()
-		# yield(get_tree(), 'idle_frame')
 		
+
+
+func _on_player_infect_block(infect_block):
+	var replace_tile = Map.get_cellv(infect_block)
+	infectMap.set_cellv(infect_block, replace_tile)

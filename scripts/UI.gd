@@ -1,22 +1,27 @@
 extends CanvasLayer
-
+# move UI load
 onready var move_radial = $windowUI/move_group/moveProgress
-onready var infect_radial = $windowUI/infectProgress
-onready var att_radial = $windowUI/attackProgres
-onready var defend_radial = $windowUI/defendProgress
-onready var turns = $windowUI/turns
 onready var moveNum = $windowUI/move_group/moveProgress/moveNum
 onready var uparrow = $windowUI/move_group/uparrow
 onready var rightarrow = $windowUI/move_group/rightarrow
 onready var leftarrow = $windowUI/move_group/leftarrow
 onready var downarrow = $windowUI/move_group/downarrow
+# infact UI load
+onready var infect_radial = $windowUI/infect_group/infectProgress
+onready var infectNum = $windowUI/infect_group/infectProgress/infectNum
+onready var infect_low = $windowUI/infect_group/infectlow
+# attack UI load
+onready var att_radial = $windowUI/attackProgres
+onready var defend_radial = $windowUI/defendProgress
+onready var turns = $windowUI/turns
+
 
 var move = 0
 var infect = 0
 var attack = 0
 var defend = 0
 export var turn = 201
-
+signal infect_amount
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,7 +29,7 @@ func _ready():
 
 
 func _on_puzzle_move_update(mover, infecter, attacker, defender):
-	move = mover
+	move += mover
 	move_radial.progress = move
 	moveNum.text = String(move)
 	if move == 0:
@@ -39,8 +44,15 @@ func _on_puzzle_move_update(mover, infecter, attacker, defender):
 		downarrow.visible = true
 		rightarrow.visible = true
 		leftarrow.visible = true
-	infect = infecter
+	infect += infecter
 	infect_radial.progress = infect
+	infectNum.text = String(infect)
+	if infect == 0:
+		infectNum.visible = false
+		infect_low.visible = false
+	else:
+		infectNum.visible = true
+		infect_low.visible = true
 	attack = attacker
 	att_radial.progress = attack
 	defend = defender
@@ -63,3 +75,17 @@ func _on_player_move_remove():
 		downarrow.visible = false
 		rightarrow.visible = false
 		leftarrow.visible = false
+
+
+func _on_player_infect_remove():
+	if infect > 1:
+		infect -= 1
+		infect_radial.progress = infect
+		infectNum.text = String(infect)
+	else:
+		infect -= 1
+		infect_radial.progress = infect
+		infectNum.visible = false
+		infect_low.visible = false
+	print(infect)
+	emit_signal("infect_amount",infect)
