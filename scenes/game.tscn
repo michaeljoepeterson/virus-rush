@@ -74,6 +74,7 @@ script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 max_value = 12
 radius = 60
 progress = 1
@@ -151,6 +152,7 @@ script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 max_value = 12
 radius = 64
 progress = 1
@@ -178,6 +180,7 @@ script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 max_value = 12
 radius = 64
 progress = 1
@@ -205,6 +208,7 @@ script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 max_value = 12
 radius = 64
 progress = 1
@@ -237,11 +241,11 @@ __meta__ = {
 }
 
 [node name="destroy_timer" type="Timer" parent="UI"]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [node name="refill_timer" type="Timer" parent="UI"]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [node name="puzzle" type="Node2D" parent="UI"]
