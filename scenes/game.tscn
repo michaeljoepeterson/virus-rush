@@ -22,17 +22,15 @@
 [node name="game" type="Node2D"]
 
 [node name="maze" type="Node2D" parent="."]
-position = Vector2( 250, 250 )
+position = Vector2( 228, 215 )
 script = ExtResource( 3 )
 
 [node name="lungmap" type="TileMap" parent="maze"]
-position = Vector2( -16, -35 )
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 128 )
 format = 1
 
 [node name="infectMap" type="TileMap" parent="maze"]
-position = Vector2( -16, -35 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 128, 128 )
 format = 1
@@ -177,7 +175,6 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
-thickness = 20
 bg_color = Color( 0.054902, 0.00392157, 0.00392157, 0 )
 bar_color = Color( 0.2, 0.901961, 0.2, 0.678431 )
 
@@ -226,7 +223,6 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
-thickness = 20
 bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
 bar_color = Color( 0.945098, 0.0509804, 0.0509804, 0.584314 )
 
@@ -253,7 +249,6 @@ __meta__ = {
 max_value = 12
 radius = 64
 progress = 1
-thickness = 20
 bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
 bar_color = Color( 0.847059, 0.901961, 0.2, 0.752941 )
 
@@ -296,7 +291,7 @@ script = ExtResource( 1 )
 width = 8
 height = 5
 x_start = 64
-y_start = 900
+y_start = 950
 offset = 64
 y_offset = 2
 [connection signal="infect_percent" from="maze" to="UI" method="_on_maze_infect_percent"]

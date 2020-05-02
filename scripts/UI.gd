@@ -29,7 +29,10 @@ func _ready():
 
 
 func _on_puzzle_move_update(mover, infecter, attacker, defender):
-	move += mover
+	if move + mover < move_radial.max_value:
+		move += mover
+	elif move + mover > move_radial.max_value:
+		move = move_radial.max_value
 	move_radial.progress = move
 	moveNum.text = String(move)
 	if move == 0:
@@ -44,7 +47,10 @@ func _on_puzzle_move_update(mover, infecter, attacker, defender):
 		downarrow.visible = true
 		rightarrow.visible = true
 		leftarrow.visible = true
-	infect += infecter
+	if infect + infecter < infect_radial.max_value:
+		infect += infecter
+	elif infect + infecter > infect_radial.max_value:
+		infect = infect_radial.max_value
 	infect_radial.progress = infect
 	infectNum.text = String(infect)
 	if infect == 0:
@@ -53,9 +59,11 @@ func _on_puzzle_move_update(mover, infecter, attacker, defender):
 	else:
 		infectNum.visible = true
 		infect_low.visible = true
-	attack = attacker
+	if attacker > 0:
+		attack = attacker
 	att_radial.progress = attack
-	defend = defender
+	if defender > 0:
+		defend = defender
 	defend_radial.progress = defend
 
 

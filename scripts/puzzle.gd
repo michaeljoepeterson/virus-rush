@@ -56,13 +56,7 @@ func match_at(i, j, color):
 		if all_blocks[i - 1][j] != null && all_blocks[i][j - 1] != null:
 			if all_blocks[i - 1][j].color == color && all_blocks[i][j - 1].color == color:
 				return true
-		if all_blocks[i - 1][j] != null && all_blocks[i - 2][j] != null:
-			if all_blocks[i - 1][j].color == color && all_blocks[i - 2][j].color == color:
-				return true
 	if j > 1:
-		if all_blocks[i][j - 1] != null && all_blocks[i - 1][j] != null:
-			if all_blocks[i][j - 1].color == color && all_blocks[i - 1][j].color == color:
-				return true
 		if all_blocks[i][j - 1] != null && all_blocks[i][j - 2] != null:
 			if all_blocks[i][j - 1].color == color && all_blocks[i][j - 2].color == color:
 				return true

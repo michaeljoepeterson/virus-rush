@@ -64,6 +64,7 @@ func _on_infectlow_pressed():
 	block_infect.x = ceil((position.x - 250) / 128 ) - 1
 	block_infect.y = ceil((position.y - 250) / 128 ) - 1
 	emit_signal("infect_block", block_infect)
+	infect_amount = 2
 	low_infect_on = true
 
 
