@@ -131,7 +131,7 @@ func _on_battle_enemyAttack(attNum):
 	defend = defend - attNum
 	defend_radial.progress = defend
 	if defend < 1:
-		get_tree().change_scene("res://scenes/startScreen.tscn")
+		print (get_tree().change_scene("res://scenes/startScreen.tscn"))
 
 
 func _on_battle_playerAttack():
