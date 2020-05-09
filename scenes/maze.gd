@@ -21,7 +21,9 @@ onready var enemy = preload("res://scenes/badguy.tscn")
 signal infect_remove
 signal infect_percent
 
+var rng = RandomNumberGenerator.new()
 var infect_count = 0
+var stack = []
 
 func _ready():
 	randomize()
@@ -39,7 +41,7 @@ func check_neighbors(cell, unvisited):
 	
 func make_maze():
 	var unvisited = []  # array of unvisited tiles
-	var stack = []
+	stack = []
 	# fill the map with solid tiles
 	Map.clear()
 	for x in range(width):
@@ -75,13 +77,18 @@ func _on_player_infect_block(infect_block):
 		emit_signal("infect_remove")
 		emit_signal("infect_percent", infect_count)
 
+
 func make_enemies():
+	rng.randomize()
 	for _i in range(0,10):
 		var badguy = enemy.instance()
-		var x = randi() % width + 1
-		var y = randi() % height + 1
-		print(String(x) + " and " + String(y))
+		var x = rng.randi_range(2, width)
+		var y = rng.randi_range(2, height)
+		print(Vector2(x,y))
 		x = (x * 128) + 64
 		y = (y * 128) + 64
 		badguy.position = Vector2(x,y)
 		add_child(badguy)
+		
+func make_end():
+	pass

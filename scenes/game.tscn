@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scripts/puzzle.gd" type="Script" id=1]
 [ext_resource path="res://scenes/lungset512.tres" type="TileSet" id=2]
@@ -18,6 +18,17 @@
 [ext_resource path="res://art/arrow_3.png" type="Texture" id=16]
 [ext_resource path="res://art/infect1.png" type="Texture" id=17]
 [ext_resource path="res://scenes/lunginfect.tres" type="TileSet" id=18]
+[ext_resource path="res://art/battle_back.png" type="Texture" id=19]
+[ext_resource path="res://art/player.png" type="Texture" id=20]
+[ext_resource path="res://art/badguy.png" type="Texture" id=21]
+[ext_resource path="res://scripts/battle.gd" type="Script" id=22]
+[ext_resource path="res://art/swordSilver.png" type="Texture" id=23]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 38.2223
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.172549, 1, 0, 1 )
 
 [node name="game" type="Node2D"]
 
@@ -46,6 +57,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="hitbox" type="Area2D" parent="player"]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/hitbox"]
+shape = SubResource( 1 )
+
 [node name="wallup" type="RayCast2D" parent="player"]
 enabled = true
 cast_to = Vector2( 0, -64 )
@@ -60,8 +77,11 @@ cast_to = Vector2( -64, 0 )
 
 [node name="walldown" type="RayCast2D" parent="player"]
 enabled = true
-exclude_parent = false
 cast_to = Vector2( 0, 64 )
+
+[node name="battle_delay" type="Timer" parent="player"]
+wait_time = 0.5
+one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 11 )
@@ -211,7 +231,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="attackProgres" type="Control" parent="UI/windowUI"]
+[node name="attack_group" type="Node2D" parent="UI/windowUI"]
+
+[node name="attackProgres" type="Control" parent="UI/windowUI/attack_group"]
 margin_left = 64.0
 margin_top = 502.0
 margin_right = 104.0
@@ -226,13 +248,23 @@ progress = 1
 bg_color = Color( 0.501961, 0.501961, 0.501961, 0 )
 bar_color = Color( 0.945098, 0.0509804, 0.0509804, 0.584314 )
 
-[node name="attack" type="TextureRect" parent="UI/windowUI/attackProgres"]
+[node name="attack" type="TextureRect" parent="UI/windowUI/attack_group/attackProgres"]
 modulate = Color( 1, 1, 1, 0.392157 )
 margin_left = -64.0
 margin_top = -63.825
 margin_right = 64.0
 margin_bottom = 64.175
 texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="attackLow" type="TextureButton" parent="UI/windowUI/attack_group"]
+margin_left = 138.478
+margin_top = 349.472
+margin_right = 208.478
+margin_bottom = 419.472
+texture_normal = ExtResource( 23 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -294,10 +326,58 @@ x_start = 64
 y_start = 950
 offset = 64
 y_offset = 2
+
+[node name="battle" type="Node2D" parent="."]
+script = ExtResource( 22 )
+
+[node name="tunnel" type="TextureRect" parent="battle"]
+margin_left = -127.447
+margin_top = -126.933
+margin_right = 128.553
+margin_bottom = 129.067
+texture = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerBattle" type="Node2D" parent="battle"]
+
+[node name="Sprite" type="Sprite" parent="battle/PlayerBattle"]
+position = Vector2( -55, 0 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="enemyBattle" type="Node2D" parent="battle"]
+
+[node name="Sprite" type="Sprite" parent="battle/enemyBattle"]
+position = Vector2( 60, 0 )
+texture = ExtResource( 21 )
+
+[node name="enemyHealth" type="ProgressBar" parent="battle/enemyBattle"]
+margin_left = 30.0
+margin_top = -45.0
+margin_right = 90.0
+margin_bottom = -31.0
+custom_styles/fg = SubResource( 2 )
+max_value = 10.0
+step = 1.0
+value = 5.0
+rounded = true
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="attackTime" type="Timer" parent="battle"]
+one_shot = true
 [connection signal="infect_percent" from="maze" to="UI" method="_on_maze_infect_percent"]
 [connection signal="infect_remove" from="maze" to="UI" method="_on_maze_infect_remove"]
+[connection signal="battle" from="player" to="battle" method="_on_player_battle"]
+[connection signal="battle_UI" from="player" to="UI" method="_on_player_battle_UI"]
 [connection signal="infect_block" from="player" to="maze" method="_on_player_infect_block"]
 [connection signal="move_remove" from="player" to="UI" method="_on_player_move_remove"]
+[connection signal="area_entered" from="player/hitbox" to="player" method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="player/battle_delay" to="player" method="_on_battle_delay_timeout"]
 [connection signal="infect_amount" from="UI" to="player" method="_on_UI_infect_amount"]
 [connection signal="pressed" from="UI/windowUI/move_group/uparrow" to="player" method="_on_uparrow_pressed"]
 [connection signal="pressed" from="UI/windowUI/move_group/rightarrow" to="player" method="_on_rightarrow_pressed"]
@@ -305,6 +385,11 @@ y_offset = 2
 [connection signal="pressed" from="UI/windowUI/move_group/downarrow" to="player" method="_on_downarrow_pressed"]
 [connection signal="pressed" from="UI/windowUI/infect_group/infectlow" to="UI" method="_on_infectlow_pressed"]
 [connection signal="pressed" from="UI/windowUI/infect_group/infectlow" to="player" method="_on_infectlow_pressed"]
+[connection signal="button_down" from="UI/windowUI/attack_group/attackLow" to="battle" method="_on_attackLow_button_down"]
 [connection signal="timeout" from="UI/destroy_timer" to="UI/puzzle" method="_on_destroy_timer_timeout"]
 [connection signal="timeout" from="UI/refill_timer" to="UI/puzzle" method="_on_refill_timer_timeout"]
 [connection signal="move_update" from="UI/puzzle" to="UI" method="_on_puzzle_move_update"]
+[connection signal="battelWin" from="battle" to="player" method="_on_battle_battelWin"]
+[connection signal="enemyAttack" from="battle" to="UI" method="_on_battle_enemyAttack"]
+[connection signal="playerAttack" from="battle" to="UI" method="_on_battle_playerAttack"]
+[connection signal="timeout" from="battle/attackTime" to="battle" method="_on_attackTime_timeout"]

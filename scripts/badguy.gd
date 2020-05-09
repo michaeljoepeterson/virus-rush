@@ -1,16 +1,29 @@
 extends KinematicBody2D
 
+onready var wall_up = get_node("wallup")
+onready var wall_right = get_node("wallright")
+onready var wall_left = get_node("wallleft")
+onready var wall_down = get_node("walldown")
+onready var bad_guy_hit = get_node("bad_guy_1")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export (int) var speed = 20
+var velocity = Vector2()
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
+func _physics_process(_delta):
+	if velocity == Vector2.ZERO:
+		if !wall_up.is_colliding():
+			velocity.y = -speed 
+		elif !wall_right.is_colliding():
+			velocity.x = speed 
+		elif !wall_left.is_colliding():
+			velocity.x = -speed 
+		elif !wall_down.is_colliding():
+			velocity.y = speed 
+		
+	velocity = move_and_slide(velocity)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_bad_guy_1_area_entered(_area):
+	self.queue_free()
