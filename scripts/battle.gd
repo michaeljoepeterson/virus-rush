@@ -29,8 +29,6 @@ func _on_attackLow_button_down():
 		enemyBar.value = enemyHealth
 
 
-func _process(delta):
-	pass
 
 func _on_attackTime_timeout():
 	emit_signal("enemyAttack", 1)
