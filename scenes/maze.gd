@@ -15,11 +15,21 @@ var height = 12  # height of map (in tiles)
 
 # get a reference to the map for convenience
 onready var Map = $lungmap
+onready var infectMap = $infectMap
+onready var enemy = preload("res://scenes/badguy.tscn")
+
+signal infect_remove
+signal infect_percent
+
+var rng = RandomNumberGenerator.new()
+var infect_count = 0
+var stack = []
 
 func _ready():
 	randomize()
 	tile_size = Map.cell_size
 	make_maze()
+	make_enemies()
 	
 func check_neighbors(cell, unvisited):
 	# returns an array of cell's unvisited neighbors
@@ -31,7 +41,7 @@ func check_neighbors(cell, unvisited):
 	
 func make_maze():
 	var unvisited = []  # array of unvisited tiles
-	var stack = []
+	stack = []
 	# fill the map with solid tiles
 	Map.clear()
 	for x in range(width):
@@ -56,5 +66,29 @@ func make_maze():
 			unvisited.erase(current)
 		elif stack:
 			current = stack.pop_back()
-		# yield(get_tree(), 'idle_frame')
 		
+
+
+func _on_player_infect_block(infect_block):
+	var replace_tile = Map.get_cellv(infect_block)
+	if infectMap.get_cellv(infect_block) == -1:
+		infect_count += 1
+		infectMap.set_cellv(infect_block, replace_tile)
+		emit_signal("infect_remove")
+		emit_signal("infect_percent", infect_count)
+
+
+func make_enemies():
+	rng.randomize()
+	for _i in range(0,10):
+		var badguy = enemy.instance()
+		var x = rng.randi_range(2, width)
+		var y = rng.randi_range(2, height)
+		print(Vector2(x,y))
+		x = (x * 128) + 64
+		y = (y * 128) + 64
+		badguy.position = Vector2(x,y)
+		add_child(badguy)
+		
+func make_end():
+	pass
